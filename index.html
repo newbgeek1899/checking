@@ -9,57 +9,59 @@
         :root {
             --bg-color: #ffffff;
             --text-color: #333333;
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #e74c3c;
+            --accent-color: #4caf50;
+            --secondary-color: #2196f3;
+            --tertiary-color: #ff9800;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #1e1e1e;
-                --text-color: #ffffff;
-                --primary-color: #3498db;
-                --secondary-color: #2ecc71;
-                --accent-color: #e74c3c;
+                --text-color: #d4d4d4;
+                --accent-color: #80cbc4;
+                --secondary-color: #64b5f6;
+                --tertiary-color: #ffb74d;
             }
         }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding: 20px 0;
         }
 
         .clock-container {
-            text-align: right;
+            font-size: 1.5em;
+            color: var(--accent-color);
         }
 
-        #clock {
-            font-size: 2em;
-            color: var(--primary-color);
-        }
-
-        #date {
-            font-size: 1.2em;
+        .date-container {
+            font-size: 1em;
             color: var(--secondary-color);
         }
 
-        .tab-container {
+        .tabs {
             display: flex;
             margin-bottom: 20px;
         }
@@ -67,52 +69,53 @@
         .tab {
             padding: 10px 20px;
             cursor: pointer;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        .tab:hover, .tab.active {
             background-color: var(--secondary-color);
+            color: var(--bg-color);
+            border: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
         }
 
-        #scheduleContent, #calendarContent, #homeworkContent {
+        .tab.active {
+            background-color: var(--accent-color);
+        }
+
+        .tab-content {
             display: none;
+            padding: 20px;
+            background-color: rgba(var(--accent-color-rgb), 0.1);
+            border-radius: 0 5px 5px 5px;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         th, td {
-            border: 1px solid var(--text-color);
             padding: 10px;
             text-align: left;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
+            border-bottom: 1px solid var(--text-color);
         }
 
         .reminder-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+            background-color: var(--tertiary-color);
+            color: var(--bg-color);
             padding: 10px 20px;
-            background-color: var(--accent-color);
-            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .reminder-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+            background-color: var(--accent-color);
+            transform: scale(1.05);
         }
 
         .reminder-button.glow {
@@ -121,60 +124,55 @@
 
         @keyframes glow {
             from {
-                box-shadow: 0 0 5px var(--accent-color);
+                box-shadow: 0 0 5px var(--tertiary-color);
             }
             to {
-                box-shadow: 0 0 20px var(--accent-color);
+                box-shadow: 0 0 20px var(--tertiary-color);
             }
         }
 
-        #homeworkForm {
+        .homework-form {
             margin-bottom: 20px;
         }
 
-        #homeworkForm input, #homeworkForm button {
-            margin: 5px;
+        .homework-form input, .homework-form button {
+            margin-right: 10px;
             padding: 5px;
         }
 
-        #homeworkList {
+        .homework-list {
             list-style-type: none;
-            padding: 0;
         }
 
-        #homeworkList li {
-            margin-bottom: 10px;
+        .homework-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px;
-            background-color: var(--primary-color);
+            border-bottom: 1px solid var(--text-color);
+        }
+
+        .delete-btn {
+            background-color: #f44336;
             color: white;
-            border-radius: 5px;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            header {
-                flex-direction: column;
-            }
-
-            .clock-container {
-                text-align: center;
-                margin-top: 10px;
-            }
-
-            .tab-container {
+            .tabs {
                 flex-direction: column;
             }
 
             .tab {
                 width: 100%;
                 margin-bottom: 5px;
+                border-radius: 5px;
             }
 
-            table {
-                font-size: 0.8em;
+            .tab-content {
+                border-radius: 5px;
             }
         }
     </style>
@@ -183,103 +181,157 @@
     <div class="container">
         <header>
             <h1>Academic Schedule - Reyajul Hasan Leon</h1>
-            <div class="clock-container">
-                <div id="clock"></div>
-                <div id="date"></div>
+            <div>
+                <div class="clock-container" id="clock"></div>
+                <div class="date-container" id="date"></div>
             </div>
         </header>
 
-        <div class="tab-container">
-            <button class="tab active" onclick="showTab('scheduleContent')">Schedule</button>
-            <button class="tab" onclick="showTab('calendarContent')">Calendar</button>
-            <button class="tab" onclick="showTab('homeworkContent')">Homework</button>
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'schedule')">Schedule</button>
+            <button class="tab" onclick="openTab(event, 'calendar')">Calendar</button>
+            <button class="tab" onclick="openTab(event, 'homework')">Homework</button>
         </div>
 
-        <div id="scheduleContent">
-            <h2>Weekly Schedule</h2>
-            <!-- Schedule content will be inserted here by JavaScript -->
+        <div id="schedule" class="tab-content active">
+            <div id="scheduleSelector">
+                <select id="viewSelect">
+                    <option value="day">Daily View</option>
+                    <option value="week">Week Overview</option>
+                </select>
+                <select id="daySelect">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+                <button onclick="showSchedule()">Display Schedule</button>
+            </div>
+            <div id="scheduleOutput"></div>
         </div>
 
-        <div id="calendarContent">
-            <h2>Calendar</h2>
-            <!-- Calendar will be inserted here by JavaScript -->
+        <div id="calendar" class="tab-content">
+            <div id="calendarContainer"></div>
         </div>
 
-        <div id="homeworkContent">
-            <h2>Homework Tracker</h2>
-            <form id="homeworkForm">
-                <input type="text" id="homeworkTitle" placeholder="Homework Title" required>
+        <div id="homework" class="tab-content">
+            <form class="homework-form" onsubmit="addHomework(event)">
+                <input type="text" id="homeworkTitle" placeholder="Homework title" required>
                 <input type="date" id="homeworkDeadline" required>
                 <button type="submit">Add Homework</button>
             </form>
-            <ul id="homeworkList"></ul>
+            <ul class="homework-list" id="homeworkList"></ul>
         </div>
+
+        <button class="reminder-button" onclick="toggleReminder()" id="reminderButton">Check Email</button>
     </div>
 
-    <button class="reminder-button" onclick="toggleReminder()">Check Email</button>
-
     <script>
-        // Schedule data
+        // Schedule data (unchanged)
         const schedule = {
             Monday: [
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
-                { time: "1:20 - 2:35", activity: "MAC2233 Lect 8 (TA Duty)", location: "104MOR" },
-                { time: "6:35 - 7:25", activity: "MAT 5939-02: Fin Math Proseminar", location: "Love" }
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
+                { time: "1:20 - 2:35", activity: "MAC2233 Lect 8 (TA Duty)", location: "104MOR", type: "TA", professor: "Dr. Watford", fellows: ["Prakash, Siddharth", "Parsizadeh, Pejman"] },
+                { time: "6:35 - 7:25", activity: "MAT 5939-02: Fin Math Proseminar", location: "Love", type: "Class" }
             ],
             Tuesday: [
-                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110" },
-                { time: "3:05 - 4:20", activity: "MAT 5939-01: Fin Math Proseminar", location: "Love 105" },
-                { time: "4:50 - 6:05", activity: "MAC1140 Lect 21 (TA Duty)", location: "2100HWC" }
+                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110", type: "Class" },
+                { time: "3:05 - 4:20", activity: "MAT 5939-01: Fin Math Proseminar", location: "Love 105", type: "Class" },
+                { time: "4:50 - 6:05", activity: "MAC1140 Lect 21 (TA Duty)", location: "2100HWC", type: "TA", professor: "Dr. Schillinger", fellows: ["Reid, Callie"] }
             ],
             Wednesday: [
-                { time: "8:00 - 8:50", activity: "MAC1140 Lab 13 (TA Duty)", location: "114HTL" },
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
-                { time: "1:20 - 2:10", activity: "MAC1140 Lab 26 (TA Duty)", location: "107MCH" },
-                { time: "3:05 - 3:55", activity: "MAC1140 Lab 27 (TA Duty)", location: "107MCH" }
+                { time: "8:00 - 8:50", activity: "MAC1140 Lab 13 (TA Duty)", location: "114HTL", type: "TA", professor: "Dr. Wilk", fellows: ["Jennetten, Gustav (Gus)"] },
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
+                { time: "1:20 - 2:10", activity: "MAC1140 Lab 26 (TA Duty)", location: "107MCH", type: "TA", professor: "Dr. Schillinger", fellows: ["Ohanian, Charles"] },
+                { time: "3:05 - 3:55", activity: "MAC1140 Lab 27 (TA Duty)", location: "107MCH", type: "TA", professor: "Dr. Schillinger", fellows: ["Ohanian, Charles"] }
             ],
             Thursday: [
-                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110" },
-                { time: "1:00 - 2:00", activity: "Office Hours", location: "TBA" }
+                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110", type: "Class" },
+                { time: "1:00 - 2:00", activity: "Office Hours", location: "TBA", type: "Office Hours" }
             ],
             Friday: [
-                { time: "8:00 - 8:50", activity: "MAC2233 Lab 10 (TA Duty)", location: "105HTL" },
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
-                { time: "12:00 - 12:50", activity: "MAC2233 Lab 15 (TA Duty)", location: "104HTL" },
-                { time: "1:20 - 2:10", activity: "MAC2233 Lab 17 (TA Duty)", location: "104HTL" },
-                { time: "3:00 - 4:00", activity: "Office Hours", location: "TBA" }
+                { time: "8:00 - 8:50", activity: "MAC2233 Lab 10 (TA Duty)", location: "105HTL", type: "TA", professor: "Dr. Watford", fellows: ["Lyu, Shiyi"] },
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
+                { time: "12:00 - 12:50", activity: "MAC2233 Lab 15 (TA Duty)", location: "104HTL", type: "TA", professor: "Dr. Watford", fellows: ["Heeralu Pathirannehelage, Samadhi Lochana Premasiri"] },
+                { time: "1:20 - 2:10", activity: "MAC2233 Lab 17 (TA Duty)", location: "104HTL", type: "TA", professor: "Dr. Watford", fellows: ["Hill, Devan"] },
+                { time: "3:00 - 4:00", activity: "Office Hours", location: "TBA", type: "Office Hours" }
             ]
         };
 
-        // Function to show selected tab
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-container button').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.container > div').forEach(content => content.style.display = 'none');
-            document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
-            document.getElementById(tabId).style.display = 'block';
-        }
-
-        // Function to update clock and date
+        // Clock and Date
         function updateClockAndDate() {
             const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString();
-            document.getElementById('date').textContent = now.toLocaleDateString();
+            const clock = document.getElementById('clock');
+            const date = document.getElementById('date');
+            
+            clock.textContent = now.toLocaleTimeString();
+            date.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
 
-        // Function to toggle reminder button glow
-        function toggleReminder() {
-            const button = document.querySelector('.reminder-button');
-            button.classList.toggle('glow');
-            if (button.classList.contains('glow')) {
-                window.open('https://outlook.office365.com/mail/', '_blank');
+        setInterval(updateClockAndDate, 1000);
+        updateClockAndDate();
+
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Schedule functions
+        function showSchedule() {
+            const viewType = document.getElementById('viewSelect').value;
+            const day = document.getElementById('daySelect').value;
+            const output = document.getElementById('scheduleOutput');
+
+            if (viewType === 'day') {
+                showDaySchedule(day, output);
+            } else {
+                showWeekOverview(output);
             }
         }
 
-        // Function to generate schedule
-        function generateSchedule() {
-            let scheduleHTML = '<table>';
+        function showDaySchedule(day, output) {
+            const daySchedule = schedule[day];
+
+            if (daySchedule && daySchedule.length > 0) {
+                let scheduleHTML = `<h2>Schedule for ${day}</h2><table>`;
+                scheduleHTML += '<tr><th>Time</th><th>Activity</th><th>Location</th><th>Professor</th><th>Fellow TAs</th></tr>';
+                
+                daySchedule.forEach(item => {
+                    let professorCell = item.professor || '';
+                    let fellowsCell = item.fellows ? item.fellows.join(', ') : '';
+                    scheduleHTML += `<tr>
+                        <td>${item.time}</td>
+                        <td>${item.activity}</td>
+                        <td>${item.location}</td>
+                        <td>${professorCell}</td>
+                        <td>${fellowsCell}</td>
+                    </tr>`;
+                });
+                
+                scheduleHTML += '</table>';
+                output.innerHTML = scheduleHTML;
+            } else {
+                output.innerHTML = `<p>No scheduled activities for ${day}.</p>`;
+            }
+        }
+
+        function showWeekOverview(output) {
+            let scheduleHTML = '<h2>Week Overview</h2><table>';
             scheduleHTML += '<tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>';
 
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -290,7 +342,11 @@
                 days.forEach(day => {
                     const activity = schedule[day].find(item => item.time === time);
                     if (activity) {
-                        scheduleHTML += `<td>${activity.activity}<br>${activity.location}</td>`;
+                        let cellContent = `${activity.activity}<br>${activity.location}`;
+                        if (activity.type === 'TA') {
+                            cellContent += `<br>Prof: ${activity.professor}`;
+                        }
+                        scheduleHTML += `<td>${cellContent}</td>`;
                     } else {
                         scheduleHTML += '<td></td>';
                     }
@@ -299,83 +355,162 @@
             });
 
             scheduleHTML += '</table>';
-            document.getElementById('scheduleContent').innerHTML += scheduleHTML;
+            output.innerHTML = scheduleHTML;
         }
 
-        // Function to generate calendar
+        // Calendar functionality
         function generateCalendar() {
+            const calendarContainer = document.getElementById('calendarContainer');
             const now = new Date();
-            const month = now.getMonth();
-            const year = now.getFullYear();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const firstDay = new Date(year, month, 1).getDay();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
 
-            let calendarHTML = '<table>';
-            calendarHTML += '<tr><th colspan="7">' + now.toLocaleString('default', { month: 'long' }) + ' ' + year + '</th></tr>';
-            calendarHTML += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
-            let date = 1;
+            let calendarHTML = `<h2>${now.toLocaleString('default', { month: 'long' })} ${currentYear}</h2>`;
+            calendarHTML += '<table><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+
+            let dayCount = 1;
             for (let i = 0; i < 6; i++) {
                 calendarHTML += '<tr>';
                 for (let j = 0; j < 7; j++) {
-                    if (i === 0 && j < firstDay) {
+                    if (i === 0 && j < firstDayOfMonth) {
                         calendarHTML += '<td></td>';
-                    } else if (date > daysInMonth) {
-                        break;
+                    } else if (dayCount > daysInMonth) {
+                        calendarHTML += '<td></td>';
                     } else {
-                        calendarHTML += `<td>${date}</td>`;
-                        date++;
+                        const isToday = dayCount === now.getDate() ? 'class="today"' : '';
+                        calendarHTML += `<td ${isToday}>${dayCount}</td>`;
+                        dayCount++;
                     }
                 }
                 calendarHTML += '</tr>';
-                if (date > daysInMonth) {
-                    break;
-                }
+                if (dayCount > daysInMonth) break;
             }
 
             calendarHTML += '</table>';
-            document.getElementById('calendarContent').innerHTML += calendarHTML;
+            calendarContainer.innerHTML = calendarHTML;
         }
 
-        // Function to handle homework submission
-        function handleHomeworkSubmission(event) {
+        // Homework functionality
+        let homeworkList = JSON.parse(localStorage.getItem('homeworkList')) || [];
+
+        function addHomework(event) {
             event.preventDefault();
             const title = document.getElementById('homeworkTitle').value;
             const deadline = document.getElementById('homeworkDeadline').value;
-            const homework = { title, deadline, completed: false };
-            let homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
-            homeworks.push(homework);
-            localStorage.setItem('homeworks', JSON.stringify(homeworks));
-            displayHomeworks();
-            document.getElementById('homeworkForm').reset();
+            homeworkList.push({ title, deadline, completed: false });
+            saveHomework();
+            renderHomework();
+            document.getElementById('homeworkTitle').value = '';
+            document.getElementById('homeworkDeadline').value = '';
         }
 
-        // Function to display homeworks
-        function displayHomeworks() {
-            const homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
-            const list = document.getElementById('homeworkList');
-            list.innerHTML = '';
-            homeworks.forEach((homework, index) => {
+        function deleteHomework(index) {
+            homeworkList.splice(index, 1);
+            saveHomework();
+            renderHomework();
+        }
+
+        function toggleHomeworkCompletion(index) {
+            homeworkList[index].completed = !homeworkList[index].completed;
+            saveHomework();
+            renderHomework();
+        }
+
+        function saveHomework() {
+            localStorage.setItem('homeworkList', JSON.stringify(homeworkList));
+        }
+
+        function renderHomework() {
+            const homeworkListElement = document.getElementById('homeworkList');
+            homeworkListElement.innerHTML = '';
+            homeworkList.forEach((homework, index) => {
                 const li = document.createElement('li');
-                li.textContent = `${homework.title} - Due: ${homework.deadline}`;
-                if (new Date(homework.deadline) < new Date() && !homework.completed) {
-                    li.style.backgroundColor = 'var(--accent-color)';
-                    const completeButton = document.createElement('button');
-                    completeButton.textContent = 'Mark as Completed';
-                    completeButton.onclick = () => markAsCompleted(index);
-                    li.appendChild(completeButton);
-                }
-                list.appendChild(li);
+                li.className = 'homework-item';
+                const daysUntilDeadline = Math.ceil((new Date(homework.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+                const deadlineClass = daysUntilDeadline <= 3 ? 'near-deadline' : '';
+                const completedClass = homework.completed ? 'completed' : '';
+                li.innerHTML = `
+                    <span class="${deadlineClass} ${completedClass}">
+                        ${homework.title} - Due: ${homework.deadline} 
+                        (${daysUntilDeadline} days left)
+                    </span>
+                    <div>
+                        <button onclick="toggleHomeworkCompletion(${index})">${homework.completed ? 'Undo' : 'Complete'}</button>
+                        <button class="delete-btn" onclick="deleteHomework(${index})">Delete</button>
+                    </div>
+                `;
+                homeworkListElement.appendChild(li);
             });
         }
 
-        // Function to mark homework as completed
-        function markAsCompleted(index) {
-            let homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
-            homeworks[index].completed = true;
-            localStorage.setItem('homeworks', JSON.stringify(homeworks));
-            displayHomeworks();
+        // Email reminder functionality
+        let reminderActive = false;
+
+        function toggleReminder() {
+            const reminderButton = document.getElementById('reminderButton');
+            reminderActive = !reminderActive;
+            if (reminderActive) {
+                reminderButton.classList.add('glow');
+                reminderButton.textContent = 'Email Reminder Active';
+                checkEmailPeriodically();
+            } else {
+                reminderButton.classList.remove('glow');
+                reminderButton.textContent = 'Check Email';
+                clearTimeout(reminderTimeout);
+            }
+        }
+
+        let reminderTimeout;
+
+        function checkEmailPeriodically() {
+            if (reminderActive) {
+                // This is where you would typically integrate with an email API
+                console.log('Checking email...');
+                // For demonstration, we'll just show a notification
+                showNotification('Remember to check your email!');
+                reminderTimeout = setTimeout(checkEmailPeriodically, 30 * 60 * 1000); // Check every 30 minutes
+            }
+        }
+
+        function showNotification(message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(message);
+            } else if ('Notification' in window && Notification.permission !== 'denied') {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === 'granted') {
+                        new Notification(message);
+                    }
+                });
+            }
         }
 
         // Initialize
-        updateCl
+        showSchedule();
+        generateCalendar();
+        renderHomework();
+
+        // Check for near-deadline homework on page load
+        homeworkList.forEach(homework => {
+            const daysUntilDeadline = Math.ceil((new Date(homework.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+            if (daysUntilDeadline <= 3 && !homework.completed) {
+                showNotification(`Homework "${homework.title}" is due in ${daysUntilDeadline} days!`);
+            }
+        });
+
+        // Check for completed homework after deadline
+        setInterval(() => {
+            const now = new Date();
+            homeworkList.forEach((homework, index) => {
+                if (new Date(homework.deadline) < now && !homework.completed) {
+                    if (confirm(`Have you submitted the homework "${homework.title}"? The deadline has passed.`)) {
+                        toggleHomeworkCompletion(index);
+                    }
+                }
+            });
+        }, 24 * 60 * 60 * 1000); // Check daily
+    </script>
+</body>
+</html>
