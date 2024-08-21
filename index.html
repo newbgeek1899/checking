@@ -20,10 +20,10 @@
             color: #d4d4d4;
             background-color: #1e1e1e;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
         /* Main Content Styling */
@@ -35,8 +35,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            position: relative;
+            margin-top: 100px; /* Create space below the calendar and clock */
         }
 
         h1 {
@@ -91,6 +90,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             color: #ffffff;
+            z-index: 1000; /* Ensure calendar stays on top */
         }
 
         .calendar-container h2 {
@@ -144,6 +144,7 @@
             padding: 15px 20px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Ensure clock stays on top */
         }
 
         /* Schedule Table */
