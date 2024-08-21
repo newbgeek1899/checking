@@ -6,400 +6,280 @@
     <title>Academic Schedule - Reyajul Hasan Leon</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
         }
 
-        /* Body styling */
-        body, html {
-            height: 100%;
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1e1e1e;
+                --text-color: #ffffff;
+                --primary-color: #3498db;
+                --secondary-color: #2ecc71;
+                --accent-color: #e74c3c;
+            }
+        }
+
+        body {
             font-family: 'Roboto', sans-serif;
-            color: #d4d4d4;
-            background-color: #1e1e1e;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
             padding: 20px;
-            overflow-y: auto; /* Enable vertical scrolling */
         }
 
-        /* Main Content Styling */
-        .main-content {
-            width: 100%;
+        .container {
             max-width: 1200px;
-            text-align: center;
-            background-color: #2e2e2e;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            margin-top: 100px; /* Create space below the calendar and clock */
+            margin: 0 auto;
         }
 
-        h1 {
-            color: #80cbc4;
-            font-size: 2.5em;
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .math-header {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-style: italic;
-            color: #b3e5fc;
-        }
-
-        /* Sidebar for reminder button */
-        .sidebar {
-            position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            z-index: 1000;
-        }
-
-        /* Reminder button styling */
-        .reminder-button {
-            background-color: #ffab91;
-            color: #1e1e1e;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .reminder-button:hover {
-            background-color: #ff8a65;
-            transform: scale(1.1);
-        }
-
-        /* Calendar styling */
-        .calendar-container {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 15px;
-            background-color: #2e2e2e;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            color: #ffffff;
-            z-index: 1000; /* Ensure calendar stays on top */
-        }
-
-        .calendar-container h2 {
-            margin-bottom: 10px;
-            font-size: 1.2em;
-            color: #80cbc4;
-        }
-
-        .calendar-container table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #d4d4d4;
-        }
-
-        .calendar-container th, .calendar-container td {
-            padding: 10px;
-            border: 1px solid #3c3c3c;
-            text-align: center;
-        }
-
-        .calendar-container th {
-            background-color: #37474f;
-            color: white;
-        }
-
-        .calendar-container td {
-            background-color: #424242;
-            transition: background-color 0.3s ease;
-        }
-
-        .calendar-container td:hover {
-            background-color: #80cbc4;
-            color: #1e1e1e;
-        }
-
-        .current-day {
-            background-color: #80cbc4;
-            color: #1e1e1e;
-            font-weight: bold;
-            border-radius: 50%;
-        }
-
-        /* Clock styling */
         .clock-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 2em;
-            color: #80cbc4;
-            background-color: #2e2e2e;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000; /* Ensure clock stays on top */
+            text-align: right;
         }
 
-        /* Schedule Table */
+        #clock {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        #date {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .tab:hover, .tab.active {
+            background-color: var(--secondary-color);
+        }
+
+        #scheduleContent, #calendarContent, #homeworkContent {
+            display: none;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            color: #ffffff;
-            background-color: #2e2e2e;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         th, td {
-            padding: 15px;
+            border: 1px solid var(--text-color);
+            padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #3c3c3c;
         }
 
         th {
-            background-color: #37474f;
+            background-color: var(--primary-color);
             color: white;
-            font-weight: bold;
-            text-transform: uppercase;
         }
 
-        tr:nth-child(even) {
-            background-color: #424242;
-        }
-
-        tr:hover {
-            background-color: #37474f;
-        }
-
-        /* Buttons */
-        select, button {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px;
-            background-color: #37474f;
+        .reminder-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        select:hover, button:hover {
-            background-color: #455a64;
-            transform: scale(1.05);
+        .reminder-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
         }
 
+        .reminder-button.glow {
+            animation: glow 1s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px var(--accent-color);
+            }
+            to {
+                box-shadow: 0 0 20px var(--accent-color);
+            }
+        }
+
+        #homeworkForm {
+            margin-bottom: 20px;
+        }
+
+        #homeworkForm input, #homeworkForm button {
+            margin: 5px;
+            padding: 5px;
+        }
+
+        #homeworkList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #homeworkList li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                flex-direction: column;
+            }
+
+            .clock-container {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .tab-container {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Academic Schedule - Reyajul Hasan Leon</h1>
+            <div class="clock-container">
+                <div id="clock"></div>
+                <div id="date"></div>
+            </div>
+        </header>
 
-    <!-- Sidebar for Reminder Button -->
-    <div class="sidebar">
-        <div class="reminder-button" onclick="remindMe()">Reminder: Check Your Mail</div>
-    </div>
-
-    <!-- Calendar -->
-    <div class="calendar-container">
-        <h2>Calendar</h2>
-        <table id="calendar">
-            <!-- Calendar will be generated here -->
-        </table>
-    </div>
-
-    <!-- Clock -->
-    <div class="clock-container" id="clock"></div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1>Academic Schedule - Reyajul Hasan Leon</h1>
-        <div class="math-header">
-            \[ \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2} + rS\frac{\partial V}{\partial S} - rV = 0 \]
+        <div class="tab-container">
+            <button class="tab active" onclick="showTab('scheduleContent')">Schedule</button>
+            <button class="tab" onclick="showTab('calendarContent')">Calendar</button>
+            <button class="tab" onclick="showTab('homeworkContent')">Homework</button>
         </div>
 
-        <div id="scheduleSelector">
-            <select id="viewSelect">
-                <option value="day">Daily View</option>
-                <option value="week">Week Overview</option>
-            </select>
-            <select id="daySelect">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-            </select>
-            <button onclick="showSchedule()">Display Schedule</button>
+        <div id="scheduleContent">
+            <h2>Weekly Schedule</h2>
+            <!-- Schedule content will be inserted here by JavaScript -->
         </div>
 
-        <div id="scheduleOutput"></div>
+        <div id="calendarContent">
+            <h2>Calendar</h2>
+            <!-- Calendar will be inserted here by JavaScript -->
+        </div>
+
+        <div id="homeworkContent">
+            <h2>Homework Tracker</h2>
+            <form id="homeworkForm">
+                <input type="text" id="homeworkTitle" placeholder="Homework Title" required>
+                <input type="date" id="homeworkDeadline" required>
+                <button type="submit">Add Homework</button>
+            </form>
+            <ul id="homeworkList"></ul>
+        </div>
     </div>
+
+    <button class="reminder-button" onclick="toggleReminder()">Check Email</button>
 
     <script>
-        // Clock Script
-        function updateClock() {
-            const clock = document.getElementById('clock');
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            clock.innerHTML = `${hours}:${minutes}:${seconds}`;
-        }
-
-        setInterval(updateClock, 1000); // Update the clock every second
-        updateClock(); // Initial call to set the clock
-
-        // Calendar Script
-        function generateCalendar() {
-            const calendar = document.getElementById('calendar');
-            const now = new Date();
-            const month = now.getMonth();
-            const year = now.getFullYear();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            // Get the day of the week of the first day of the month
-            const firstDay = new Date(year, month, 1).getDay();
-
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            // Header
-            let calendarHTML = `<tr><th colspan="7">${monthNames[month]} ${year}</th></tr>`;
-            calendarHTML += '<tr>';
-            dayNames.forEach(day => {
-                calendarHTML += `<th>${day}</th>`;
-            });
-            calendarHTML += '</tr>';
-
-            // Days
-            let day = 1;
-            let rows = 6; // 6 rows to cover all possible weeks in a month
-            let cols = 7; // 7 columns for 7 days
-            for (let i = 0; i < rows; i++) {
-                calendarHTML += '<tr>';
-                for (let j = 0; j < cols; j++) {
-                    if (i === 0 && j < firstDay) {
-                        calendarHTML += '<td></td>'; // Empty cell before the first day
-                    } else if (day > daysInMonth) {
-                        calendarHTML += '<td></td>'; // Empty cell after the last day
-                    } else {
-                        const isToday = day === now.getDate() ? 'current-day' : '';
-                        calendarHTML += `<td class="${isToday}">${day}</td>`;
-                        day++;
-                    }
-                }
-                calendarHTML += '</tr>';
-                if (day > daysInMonth) break; // Stop loop if we've reached the end of the month
-            }
-
-            calendar.innerHTML = calendarHTML;
-        }
-
-        generateCalendar(); // Initial call to generate the calendar
-
-        // Reminder Script
-        let reminderInterval;
-
-        function remindMe() {
-            // Open Outlook in a new tab
-            window.open('https://outlook.office365.com/mail/', '_blank');
-
-            // Request Notification permission
-            if (Notification.permission === "default") {
-                Notification.requestPermission();
-            }
-
-            // Set up periodic reminders
-            if (!reminderInterval) {
-                reminderInterval = setInterval(() => {
-                    if (Notification.permission === "granted") {
-                        new Notification("Reminder: Check your email!");
-                    }
-                }, 60000); // Remind every minute
-            }
-        }
-
-        // Schedule Script
+        // Schedule data
         const schedule = {
             Monday: [
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
-                { time: "1:20 - 2:35", activity: "MAC2233 Lect 8 (TA Duty)", location: "104MOR", type: "TA", professor: "Dr. Watford", fellows: ["Prakash, Siddharth", "Parsizadeh, Pejman"] },
-                { time: "6:35 - 7:25", activity: "MAT 5939-02: Fin Math Proseminar", location: "Love", type: "Class" }
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
+                { time: "1:20 - 2:35", activity: "MAC2233 Lect 8 (TA Duty)", location: "104MOR" },
+                { time: "6:35 - 7:25", activity: "MAT 5939-02: Fin Math Proseminar", location: "Love" }
             ],
             Tuesday: [
-                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110", type: "Class" },
-                { time: "3:05 - 4:20", activity: "MAT 5939-01: Fin Math Proseminar", location: "Love 105", type: "Class" },
-                { time: "4:50 - 6:05", activity: "MAC1140 Lect 21 (TA Duty)", location: "2100HWC", type: "TA", professor: "Dr. Schillinger", fellows: ["Reid, Callie"] }
+                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110" },
+                { time: "3:05 - 4:20", activity: "MAT 5939-01: Fin Math Proseminar", location: "Love 105" },
+                { time: "4:50 - 6:05", activity: "MAC1140 Lect 21 (TA Duty)", location: "2100HWC" }
             ],
             Wednesday: [
-                { time: "8:00 - 8:50", activity: "MAC1140 Lab 13 (TA Duty)", location: "114HTL", type: "TA", professor: "Dr. Wilk", fellows: ["Jennetten, Gustav (Gus)"] },
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
-                { time: "1:20 - 2:10", activity: "MAC1140 Lab 26 (TA Duty)", location: "107MCH", type: "TA", professor: "Dr. Schillinger", fellows: ["Ohanian, Charles"] },
-                { time: "3:05 - 3:55", activity: "MAC1140 Lab 27 (TA Duty)", location: "107MCH", type: "TA", professor: "Dr. Schillinger", fellows: ["Ohanian, Charles"] }
+                { time: "8:00 - 8:50", activity: "MAC1140 Lab 13 (TA Duty)", location: "114HTL" },
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
+                { time: "1:20 - 2:10", activity: "MAC1140 Lab 26 (TA Duty)", location: "107MCH" },
+                { time: "3:05 - 3:55", activity: "MAC1140 Lab 27 (TA Duty)", location: "107MCH" }
             ],
             Thursday: [
-                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110", type: "Class" },
-                { time: "1:00 - 2:00", activity: "Office Hours", location: "TBA", type: "Office Hours" }
+                { time: "11:35 - 12:50", activity: "STA 6346: Advanced Probability & Inference", location: "OSB 110" },
+                { time: "1:00 - 2:00", activity: "Office Hours", location: "TBA" }
             ],
             Friday: [
-                { time: "8:00 - 8:50", activity: "MAC2233 Lab 10 (TA Duty)", location: "105HTL", type: "TA", professor: "Dr. Watford", fellows: ["Lyu, Shiyi"] },
-                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231", type: "Class" },
-                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106", type: "Class" },
-                { time: "12:00 - 12:50", activity: "MAC2233 Lab 15 (TA Duty)", location: "104HTL", type: "TA", professor: "Dr. Watford", fellows: ["Heeralu Pathirannehelage, Samadhi Lochana Premasiri"] },
-                { time: "1:20 - 2:10", activity: "MAC2233 Lab 17 (TA Duty)", location: "104HTL", type: "TA", professor: "Dr. Watford", fellows: ["Hill, Devan"] },
-                { time: "3:00 - 4:00", activity: "Office Hours", location: "TBA", type: "Office Hours" }
+                { time: "8:00 - 8:50", activity: "MAC2233 Lab 10 (TA Duty)", location: "105HTL" },
+                { time: "9:20 - 10:10", activity: "MAP 5601: Intro to Financial Math", location: "Love 231" },
+                { time: "10:40 - 11:30", activity: "MAD 5403: FCM I", location: "Love 106" },
+                { time: "12:00 - 12:50", activity: "MAC2233 Lab 15 (TA Duty)", location: "104HTL" },
+                { time: "1:20 - 2:10", activity: "MAC2233 Lab 17 (TA Duty)", location: "104HTL" },
+                { time: "3:00 - 4:00", activity: "Office Hours", location: "TBA" }
             ]
         };
 
-        function showSchedule() {
-            const viewType = document.getElementById('viewSelect').value;
-            const day = document.getElementById('daySelect').value;
-            const output = document.getElementById('scheduleOutput');
+        // Function to show selected tab
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-container button').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.container > div').forEach(content => content.style.display = 'none');
+            document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).style.display = 'block';
+        }
 
-            if (viewType === 'day') {
-                showDaySchedule(day, output);
-            } else {
-                showWeekOverview(output);
+        // Function to update clock and date
+        function updateClockAndDate() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+            document.getElementById('date').textContent = now.toLocaleDateString();
+        }
+
+        // Function to toggle reminder button glow
+        function toggleReminder() {
+            const button = document.querySelector('.reminder-button');
+            button.classList.toggle('glow');
+            if (button.classList.contains('glow')) {
+                window.open('https://outlook.office365.com/mail/', '_blank');
             }
         }
 
-        function showDaySchedule(day, output) {
-            const daySchedule = schedule[day];
-
-            if (daySchedule && daySchedule.length > 0) {
-                let scheduleHTML = `<h2>Schedule for ${day}</h2><table>`;
-                scheduleHTML += '<tr><th>Time</th><th>Activity</th><th>Location</th><th>Professor</th><th>Fellow TAs</th></tr>';
-                
-                daySchedule.forEach(item => {
-                    let professorCell = item.professor || '';
-                    let fellowsCell = item.fellows ? item.fellows.join(', ') : '';
-                    scheduleHTML += `<tr>
-                        <td>${item.time}</td>
-                        <td>${item.activity}</td>
-                        <td>${item.location}</td>
-                        <td>${professorCell}</td>
-                        <td>${fellowsCell}</td>
-                    </tr>`;
-                });
-                
-                scheduleHTML += '</table>';
-                output.innerHTML = scheduleHTML;
-            } else {
-                output.innerHTML = `<p>No scheduled activities for ${day}.</p>`;
-            }
-        }
-
-        function showWeekOverview(output) {
-            let scheduleHTML = '<h2>Week Overview</h2><table>';
+        // Function to generate schedule
+        function generateSchedule() {
+            let scheduleHTML = '<table>';
             scheduleHTML += '<tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>';
 
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -410,11 +290,7 @@
                 days.forEach(day => {
                     const activity = schedule[day].find(item => item.time === time);
                     if (activity) {
-                        let cellContent = `${activity.activity}<br>${activity.location}`;
-                        if (activity.type === 'TA') {
-                            cellContent += `<br>Prof: ${activity.professor}`;
-                        }
-                        scheduleHTML += `<td>${cellContent}</td>`;
+                        scheduleHTML += `<td>${activity.activity}<br>${activity.location}</td>`;
                     } else {
                         scheduleHTML += '<td></td>';
                     }
@@ -423,11 +299,83 @@
             });
 
             scheduleHTML += '</table>';
-            output.innerHTML = scheduleHTML;
+            document.getElementById('scheduleContent').innerHTML += scheduleHTML;
         }
 
-        // Initialize the schedule view
-        showSchedule();
-    </script>
-</body>
-</html>
+        // Function to generate calendar
+        function generateCalendar() {
+            const now = new Date();
+            const month = now.getMonth();
+            const year = now.getFullYear();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+
+            let calendarHTML = '<table>';
+            calendarHTML += '<tr><th colspan="7">' + now.toLocaleString('default', { month: 'long' }) + ' ' + year + '</th></tr>';
+            calendarHTML += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                calendarHTML += '<tr>';
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        calendarHTML += '<td></td>';
+                    } else if (date > daysInMonth) {
+                        break;
+                    } else {
+                        calendarHTML += `<td>${date}</td>`;
+                        date++;
+                    }
+                }
+                calendarHTML += '</tr>';
+                if (date > daysInMonth) {
+                    break;
+                }
+            }
+
+            calendarHTML += '</table>';
+            document.getElementById('calendarContent').innerHTML += calendarHTML;
+        }
+
+        // Function to handle homework submission
+        function handleHomeworkSubmission(event) {
+            event.preventDefault();
+            const title = document.getElementById('homeworkTitle').value;
+            const deadline = document.getElementById('homeworkDeadline').value;
+            const homework = { title, deadline, completed: false };
+            let homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
+            homeworks.push(homework);
+            localStorage.setItem('homeworks', JSON.stringify(homeworks));
+            displayHomeworks();
+            document.getElementById('homeworkForm').reset();
+        }
+
+        // Function to display homeworks
+        function displayHomeworks() {
+            const homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
+            const list = document.getElementById('homeworkList');
+            list.innerHTML = '';
+            homeworks.forEach((homework, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${homework.title} - Due: ${homework.deadline}`;
+                if (new Date(homework.deadline) < new Date() && !homework.completed) {
+                    li.style.backgroundColor = 'var(--accent-color)';
+                    const completeButton = document.createElement('button');
+                    completeButton.textContent = 'Mark as Completed';
+                    completeButton.onclick = () => markAsCompleted(index);
+                    li.appendChild(completeButton);
+                }
+                list.appendChild(li);
+            });
+        }
+
+        // Function to mark homework as completed
+        function markAsCompleted(index) {
+            let homeworks = JSON.parse(localStorage.getItem('homeworks')) || [];
+            homeworks[index].completed = true;
+            localStorage.setItem('homeworks', JSON.stringify(homeworks));
+            displayHomeworks();
+        }
+
+        // Initialize
+        updateCl
